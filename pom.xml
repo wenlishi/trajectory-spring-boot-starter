@@ -12,8 +12,8 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.track</groupId>
-    <artifactId>trajectory-processing-starter</artifactId>
+    <groupId>com.github.wenlishi</groupId>
+    <artifactId>trajectory-spring-boot-starter</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -25,7 +25,6 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Starters -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -42,8 +41,6 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
-
-        <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -99,13 +96,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.1</version> <configuration>
-                <failOnError>false</failOnError>
-                <doclint>none</doclint>
-                <charset>UTF-8</charset>
-                <encoding>UTF-8</encoding>
-                <docencoding>UTF-8</docencoding>
-            </configuration>
+                <version>3.4.1</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <doclint>none</doclint>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -117,36 +115,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/YOUR_USERNAME/YOUR_REPOSITORY</url>
-        </repository>
-    </distributionManagement>
 </project>
