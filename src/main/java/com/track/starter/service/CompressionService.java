@@ -152,7 +152,8 @@ public class CompressionService {
     }
 
     /**
-     * 计算点到直线的垂距
+     * 计算点到直线的垂距（以米为单位）
+     * 使用海伦公式计算三角形面积，然后计算高
      */
     private double calculatePerpendicularDistance(Point p, Point lineStart, Point lineEnd) {
         // 如果起点和终点相同，返回点到该点的距离
@@ -160,24 +161,24 @@ public class CompressionService {
             return p.distanceTo(lineStart);
         }
 
-        // 使用三角形面积公式计算垂距
-        // 面积 = 0.5 * |(x2-x1)(y3-y1) - (x3-x1)(y2-y1)|
-        // 底边长度 = distance(lineStart, lineEnd)
-        // 垂距 = 2 * 面积 / 底边长度
+        // 计算三个点之间的距离（以米为单位）
+        double a = p.distanceTo(lineStart);      // 点p到起点距离
+        double b = p.distanceTo(lineEnd);        // 点p到终点距离
+        double c = lineStart.distanceTo(lineEnd); // 起点到终点距离（底边）
 
-        double area = Math.abs(
-            (lineEnd.getLng() - lineStart.getLng()) * (p.getLat() - lineStart.getLat()) -
-            (p.getLng() - lineStart.getLng()) * (lineEnd.getLat() - lineStart.getLat())
-        );
+        // 使用海伦公式计算三角形面积
+        // s = (a + b + c) / 2
+        // area = sqrt(s * (s-a) * (s-b) * (s-c))
+        double s = (a + b + c) / 2.0;
+        double area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
 
-        double baseLength = lineStart.distanceTo(lineEnd);
-
-        // 避免除零
-        if (baseLength == 0) {
-            return p.distanceTo(lineStart);
+        // 避免除零和数值误差
+        if (c < 1e-10) {
+            return Math.min(a, b);
         }
 
-        return area / baseLength;
+        // 垂距 = 2 * 面积 / 底边长度
+        return 2.0 * area / c;
     }
 
     /**
